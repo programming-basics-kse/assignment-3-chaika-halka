@@ -1,7 +1,12 @@
 import argparse
 
+# -total 1988 athlete_events.tsv
+#
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-total', type=str, help='year for total count', required=False)
+parser.add_argument('-interactive', help='output statistics for given country',
+                    required=False, action='store_true')
 parser.add_argument('input_file', help='input file path')
 
 args = parser.parse_args()
