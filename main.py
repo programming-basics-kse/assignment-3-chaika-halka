@@ -20,7 +20,8 @@ with open(input_file) as file:
                 country_medals[team] = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
             country_medals[team][medal] += 1
         next_line = file.readline()
-
+        
+    print('team  Gold  Silver  Bronze')
     for team in country_medals:
         if any(country_medals[team][medal] == 1 for medal in ['Gold', 'Silver', 'Bronze']):
             print(f'{team} - {country_medals[team]["Gold"]} - {country_medals[team]["Silver"]} - {country_medals[team]["Bronze"]}')
