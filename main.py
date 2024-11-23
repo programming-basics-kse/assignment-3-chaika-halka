@@ -12,7 +12,6 @@ with open('data.tsv', 'r', encoding='utf-8') as file:
     header = file.readline().strip()
 
     columns = header.split('\t')
-    print(columns)
     NOC = 7     #header.index('NOC')
     YEARS = 9   #header.index('Year')
     TEAMS = 6   #header.index('Team')
@@ -37,9 +36,21 @@ with open('data.tsv', 'r', encoding='utf-8') as file:
 if not results:
     print('not found')
 else:
-    results = results[:10]
-    for r in results:
-        print(f"{r}\n")
+    for r in results[:10]:
+        print(f"{r}")
+gold_medals = 0
+silver_medals = 0
+bronze_medals = 0
+for res in results:
+    if "Gold" in res:
+        gold_medals += 1
+    elif 'Silver' in res:
+        silver_medals += 1
+    elif 'Bronze' in res:
+        bronze_medals += 1
+
+print(f"{country} in {year} had {gold_medals} gold medals, {silver_medals} silver medals and {bronze_medals} bronze medals")
+
 
 
 
