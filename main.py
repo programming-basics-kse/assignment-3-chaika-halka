@@ -36,8 +36,14 @@ with open('data.tsv', 'r', encoding='utf-8') as file:
 if not results:
     print('not found')
 else:
-    for r in results[:10]:
-        print(f"{r}")
+    if len(results) >= 10:
+        for r in results[:10]:
+            print(f"{r}")
+    else:
+        for r in results[:len(results)]:
+            print(f"{r}")
+
+
 gold_medals = 0
 silver_medals = 0
 bronze_medals = 0
