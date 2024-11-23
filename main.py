@@ -31,13 +31,14 @@ with open('data.tsv', 'r', encoding='utf-8') as file:
 
             if (row[NOC] == country and row[YEARS] == year) or (row[TEAMS] == country and row[YEARS] == year):
                 results.append(f"{row[NAME]}     {row[SPORT]}    {row[MEDAL]}")
-            else:
-                print('incorrect input')
-                exit()
+            # else:
+            #     print('incorrect input')
+            #     break
         next_line = file.readline()
 
 if not results:
     print('not found')
+    exit()
 else:
     if len(results) >= 10:
         for r in results[:10]:
