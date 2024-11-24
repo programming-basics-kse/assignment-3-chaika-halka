@@ -1,5 +1,6 @@
 import argparse
 from total import Total
+from interactive import Interactive
 
 
 def main():
@@ -16,12 +17,15 @@ def main():
     interactive = args.interactive
 
     if total_year:
+        # -total 1988 athlete_events.tsv
         medal_stats = Total(input_file, total_year)
         medal_stats.process_data()
         medal_stats.print_medals()
     if interactive:
-        pass
-        # some code
+        # -interactive
+        stats = Interactive(input_file)
+        stats.process_data()
+        stats.print_statistic()
 
 
 if __name__ == '__main__':
