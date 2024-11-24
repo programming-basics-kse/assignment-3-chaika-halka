@@ -12,10 +12,9 @@ def main():
     input_file = args.input_file
     total_year = args.total
 
-    medal_stats = Total(input_file, total_year)
-    medal_stats.process_data()
-
     if total_year:
+        medal_stats = Total(input_file, total_year)
+        medal_stats.process_data()
         medal_stats.print_medals()
 
 
