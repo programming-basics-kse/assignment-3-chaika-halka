@@ -2,6 +2,7 @@ import argparse
 from total import Total
 from interactive import Interactive
 from medals import Medals
+from overall import Overall
 
 
 def main():
@@ -11,8 +12,7 @@ def main():
                         required=False, action='store_true')
     parser.add_argument('input_file', help='input file path')
     parser.add_argument('--medals', '-m', nargs=2,  required=False)
-
-
+    parser.add_argument('--overall', '-o', nargs='+')
 
     args = parser.parse_args()
 
@@ -20,7 +20,7 @@ def main():
     total_year = args.total
     interactive = args.interactive
     medals_input = args.medals
-
+    overall_input = args.overall
 
     if total_year:
         # -total 1988 athlete_events.tsv
@@ -36,6 +36,11 @@ def main():
         overall_ = Medals(input_file, medals_input)
         overall_.process_data(medals_input)
         overall_.print_results()
+    if overall_input:
+        overall_ = Overall(input_file, overall_input)
+        overall_.process_data(overall_input)
+        overall_.print_max_year()
+
 
 
 if __name__ == '__main__':
