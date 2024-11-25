@@ -19,14 +19,18 @@ with open('data.tsv', 'r', encoding='utf-8') as file:
     if overall_input:
         for o in overall_input:
             years_dict = {}
-            with open(input_file, 'r', encoding='utf-8') as file:
-                header = file.readline()
-                for line in file:
-                    row = line.strip().split('\t')
-                    if o == row[TEAM]:
-                        year = int(row[YEARS])
-                        if year in years_dict:
-                            years_dict[year] += 1
-                        else:
-                            years_dict[year] = 1
-            print(f"{o}: {years_dict}")
+            file.seek(0)
+            header = file.readline()
+            for line in file:
+                row = line.strip().split('\t')
+                if o == row[TEAM]:
+                    year = int(row[YEARS])
+                    if year in years_dict:
+                        years_dict[year] += 1
+                    else:
+                        years_dict[year] = 1
+            max_year_medals = max(years_dict.values())
+            for year, medals in years_dict.items():
+                if medals == max_year_medals:
+                    max_year = year
+            print(f"{o} - Year: {max_year}, Medals: {max_year_medals}")
