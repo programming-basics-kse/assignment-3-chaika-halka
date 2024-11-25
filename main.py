@@ -22,9 +22,9 @@ def main():
         medal_stats.process_data()
         medal_stats.print_medals()
     if interactive:
-        # -interactive
+        # -interactive (USA, Afghanistan, FIN, EST)
         stats = Interactive(input_file)
-        stats.process_data()
+        stats.process_countries()
         stats.print_statistic()
 
 

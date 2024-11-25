@@ -1,21 +1,27 @@
 class Interactive:
     def __init__(self, input_file):
         self.input_file = input_file
-        self.input_country = input('Please enter country: ')
-        self.first_year = ''
-        self.first_olympic_location = ''
-        self.year_statistics = dict()
+        self.input_countries = list(input('Please enter country: ').split(', '))
+        self.countries_statistics = dict()
 
-        self.best_year = None
-        self.worst_year = None
+    def process_countries(self):
+        for input_country in self.input_countries:
+            self.process_data(input_country)
 
-        self.avr_gold = 0
-        self.avr_silver = 0
-        self.avr_bronze = 0
+    def process_data(self, input_country):
+        country_data = {
+            'first_year': None,
+            'first_olympic_location': None,
+            'year_statistics': {},
+            'best_year': None,
+            'worst_year': None,
+            'avr_gold': 0,
+            'avr_silver': 0,
+            'avr_bronze': 0
+        }
 
-    def process_data(self):
         with open(self.input_file) as file:
-            # Collect in-memory struct for alter analyis
+            # Collect in-memory struct for alter analysis
             for line in file:
                 # Each iteration is for one line which contains 1 athlete and his country and medal type
 
@@ -23,55 +29,58 @@ class Interactive:
                 team, country, games, year, sport, medal_type = s[6], s[7], s[8], s[9], s[12], s[14].strip()
 
                 # Ignore other countries
-                if self.input_country not in [team, country]:
+                if input_country not in [team, country]:
                     continue
 
                 # Update first year and first olympic location
-                if len(self.first_year) == 0 or int(year) < int(self.first_year):
-                    self.first_year = year
-                    self.first_olympic_location = country
+                if not country_data['first_year'] or int(year) < int(country_data['first_year']):
+                    country_data['first_year'] = year
+                    country_data['first_olympic_location'] = country
 
                 # Populate new row in year_statistics dict if needed
-                if games not in self.year_statistics:
-                    self.year_statistics[games] = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
+                if games not in country_data['year_statistics']:
+                    country_data['year_statistics'][games] = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
 
                 # Update  medals
                 if medal_type != 'NA':
-                    self.year_statistics[games][medal_type] += 1
+                    country_data['year_statistics'][games][medal_type] += 1
 
             # Analyze in-memory struct
             total_gold = total_silver = total_bronze = 0
-            for key in self.year_statistics:
-                value = self.year_statistics[key]
-                # key '2005 Winter'
-                # value {'Gold': 5, 'Silver': 7, 'Bronze': 2}
+            for key, value in country_data['year_statistics'].items():
+                # key: 1992 Winter
+                # value: {'Gold': 5, 'Silver': 7, 'Bronze': 2}
 
-                # Populate and update if needed best and worse
+                # Populate and update if needed best and worst
                 total_medals = value['Gold'] + value['Silver'] + value['Bronze']
-                if not self.best_year:
-                    self.best_year = (key, value, total_medals)
-                if not self.worst_year:
-                    self.worst_year = (key, value, total_medals)
-                if total_medals > self.best_year[2]:
-                    self.best_year = (key, value, total_medals)
-                if total_medals < self.worst_year[2]:
-                    self.worst_year = (key, value, total_medals)
+
+                if not country_data['best_year'] or total_medals > country_data['best_year'][2]:
+                    country_data['best_year'] = (key, value, total_medals)
+                if not country_data['worst_year'] or total_medals < country_data['worst_year'][2]:
+                    country_data['worst_year'] = (key, value, total_medals)
 
                 # Update totals, we will calculate average later
                 total_gold += value['Gold']
                 total_silver += value['Silver']
                 total_bronze += value['Bronze']
 
-            self.avr_gold = total_gold // len(self.year_statistics)
-            self.avg_silver = total_silver // len(self.year_statistics)
-            self.avg_bronze = total_bronze // len(self.year_statistics)
+            total_games = len(country_data['year_statistics'])
+            if total_games > 0:
+                country_data['avr_gold'] = total_gold // total_games
+                country_data['avg_silver'] = total_silver // total_games
+                country_data['avg_bronze'] = total_bronze // total_games
+
+        self.countries_statistics[input_country] = country_data
 
     def print_statistic(self):
-        if len(self.year_statistics) == 0:
-            print('Seems like no such country')
+        for input_country, data in self.countries_statistics.items():
+            if len(data['year_statistics']) == 0:
+                print(f'Seems like no such country {input_country} \n \n')
 
-        print(f'In the {self.first_year} {self.input_country} participated in the Olympics for the first time. \n'
-              f'In this year Olympics were held in {self.first_olympic_location}. \n'
-              f'Country best Olympics: {self.best_year}, \n'
-              f'Country worst Olympics: {self.worst_year}.\n'
-              f'In average {self.input_country} had {self.avr_gold} gold medal, {self.avg_silver} silver medal, and {self.avg_bronze} bronze medal.')
+            print(f'In the {data["first_year"]} {input_country} participated in the Olympics for the first time. \n'
+                  f'In this year Olympics were held in {data["first_olympic_location"]}. \n'
+                  f'Country best Olympics: {data["best_year"]}, \n'
+                  f'Country worst Olympics: {data["worst_year"]}.\n'
+                  f'In average {input_country} had {data["avr_gold"]} gold medal, '
+                  f'{data["avg_silver"]} silver medal, and {data["avg_bronze"]} bronze medal.'
+                  f'\n \n')
