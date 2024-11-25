@@ -1,8 +1,5 @@
-from main import overall_input
-
-
 class Overall:
-    def __init__(self, input_file, input_year):
+    def __init__(self, input_file, overall_input):
         self.input_file = input_file
         self.input_countries = overall_input
         self.years_dict = {}
