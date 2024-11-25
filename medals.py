@@ -27,9 +27,6 @@ class Medals():
 
                     if (row[NOC] == country and row[YEARS] == year) or (row[TEAMS] == country and row[YEARS] == year):
                         results.append(f"{row[NAME]}     {row[SPORT]}    {row[MEDAL]}")
-                    # else:
-                    #     print('incorrect input')
-                    #     break
                 next_line = file.readline()
         results_for_print = [country, year]
         return results, results_for_print
