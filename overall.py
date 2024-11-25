@@ -4,7 +4,7 @@ class Overall:
         self.input_countries = overall_input
         self.years_dict = {}
 
-    def process_data(self,):
+    def process_data(self, overall_input):
         with open('data.tsv', 'r', encoding='utf-8') as file:
             header = file.readline().strip()
 

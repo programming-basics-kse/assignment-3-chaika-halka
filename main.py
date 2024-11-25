@@ -11,7 +11,7 @@ def main():
 
     if overall_input:
         overall_ = Overall(input_file, overall_input)
-        overall_.process_data()
+        overall_.process_data(overall_input)
         overall_.print_max_year()
 
 if __name__ == '__main__':
