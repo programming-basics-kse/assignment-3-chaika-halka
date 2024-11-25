@@ -19,6 +19,8 @@ class Total:
                 next_line = file.readline()
 
     def print_medals(self):
+        if len(self.country_medals) == 0:
+            print('Seems like in this year was no Olympics')
         print('team  Gold  Silver  Bronze')
         for team in self.country_medals:
             if any(self.country_medals[team][medal] > 0 for medal in ['Gold', 'Silver', 'Bronze']):
