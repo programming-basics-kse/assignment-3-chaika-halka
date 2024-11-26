@@ -22,7 +22,8 @@ class Overall:
                     for line in file:
                         row = line.strip().split('\t')
                         if o == row[TEAM]:
-                            year = int(row[YEARS])
+                            if row[MEDAL] != 'NA':
+                                year = int(row[YEARS])
                             if year in years_dict:
                                 years_dict[year] += 1
                             else:
