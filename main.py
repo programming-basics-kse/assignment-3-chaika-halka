@@ -33,14 +33,15 @@ def main():
         stats.process_countries()
         stats.print_statistic()
     if medals_input:
+        # --medals USA 1996
         overall_ = Medals(input_file, medals_input)
         overall_.process_data(medals_input)
         overall_.print_results()
     if overall_input:
+        # --overall Ukraine Ireland Canada
         overall_ = Overall(input_file, overall_input)
         overall_.process_data(overall_input)
         overall_.print_max_year()
-
 
 
 if __name__ == '__main__':
